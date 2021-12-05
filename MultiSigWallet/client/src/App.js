@@ -10,8 +10,7 @@ function App() {
   const [wallet, setWallet] = useState(undefined)
   const [approvers, setApprovers] = useState(undefined)
   const [quorum, setQuorum] = useState(undefined)
-  //Write to blockchain
-  const [transaction,setTransaction] = useState([{amount: undefined, address: undefined}])
+
 
   // #later: difference between useEffect and useState
   useEffect( () =>{
@@ -31,9 +30,13 @@ function App() {
     init();
   },[])
 
-  const updateTransactionData = (amount, address) => {
-    setTransaction([{amount: amount, address: address }]) 
+  const createTransfer = (transfer) => {
+    wallet.methods
+    .createTransfer(transfer.amount, transfer.to)
+    .send({from: accounts[0]})
   }
+
+
 
 
   if (
@@ -52,10 +55,10 @@ function App() {
 
     <div >
       <h1>MultiSigWallet </h1>
+      <h3>Wallet Parameters</h3>
       <Header approvers = {approvers} quorum ={quorum}/>
-      <CreateTransactionForm
-        updateTransactionData
-        />
+      <h3>Create Transfer</h3>
+      <CreateTransactionForm createTransfer = {createTransfer} />
     </div>
   );
 }
