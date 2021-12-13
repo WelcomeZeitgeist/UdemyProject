@@ -1,13 +1,31 @@
 // package, need to do npm install
 import Web3 from "web3"
+import detectEthereumProvider from '@metamask/detect-provider'
 // refernce to contract artifact and ABI
 // ABI defines functions of the contract 
-import Wallet from "./build/contracts/Wallet.json"
+import Wallet from "./contracts/Wallet.json"
 
 // returns web3 object, "new" is JS operator that creates new instance of a class
-const getWeb3 = () => {
-    return new Web3("HTTP://localhost:7545")
-}
+
+const getWeb3 = () =>
+
+    new Promise( async (resolve, reject) => {
+        // detectEthereumProvider: makes sure that MetaMask is loaded
+        let provider = await detectEthereumProvider();
+        console.log(provider)
+        if(provider) {
+            // ask user to connect Metamask
+            await provider.request({ method: 'eth_requestAccounts' });
+            try {
+                const web3 = new Web3(window.ethereum);
+                console.log(web3)
+                resolve(web3);
+            } catch(error) {
+                reject(error);
+            }
+        } reject('Install Metamask');
+
+});
 
 // this will create an instance of object, that will allow us to interact with the contract as if it were JS object
 //
