@@ -3,6 +3,7 @@ import {getWeb3, getWallet} from "./utils.js"
 import Header from "./Header.js"
 import CreateTransactionForm from "./CreateTransactionForm.js"
 import TransactionList from "./TransactionList.js"
+// import MetaMaskInfo from "./MetaMaskInfo.js"
 import MetaMaskInfo from "./MetaMaskInfo.js"
 
 function App() {
@@ -10,10 +11,11 @@ function App() {
   const [web3, setWeb3] = useState(undefined)
   const [wallet, setWallet] = useState(undefined)
   const [accounts, setAccounts] = useState(undefined)
-  const [currentAccount, setCurrentAccount] = useState(undefined)
   const [approvers, setApprovers] = useState(undefined)
   const [quorum, setQuorum] = useState(undefined)
   const [transactions, setTransactions] = useState([])
+  //read from MetaMask
+  const [currentAddress,setCurrentAddress] = useState(undefined)
 
 
   // #later: difference between useEffect and useState
@@ -32,7 +34,7 @@ function App() {
       setApprovers(approvers)
       setQuorum(quorum)
       setTransactions(transactions)
-      setCurrentAccount(currentAddress[0])
+
 
     };
     init();
@@ -41,12 +43,13 @@ function App() {
   const createTransfer =  transfer => {
     wallet.methods
     .createTransfer(transfer.amount, transfer.to)
-    .send({from: currentAccount, gas: 1000000})
+    .send({from: currentAddress, gas: 1000000})
   }
 
   const approveTransfer = transferId => {
-    wallet.methods.approveTransfer(transferId).send({from:currentAccount, gas:1000000})
+    wallet.methods.approveTransfer(transferId).send({from:currentAddress, gas:1000000})
   }
+
 
   
   if (
@@ -58,7 +61,8 @@ function App() {
     ) 
   {return (
     <>
-    <MetaMaskInfo/>
+
+    <MetaMaskInfo currentAddress = {currentAddress} setCurrentAddress = {setCurrentAddress}/>
   <div> Loading...</div>
   </>)}
   
@@ -70,7 +74,7 @@ function App() {
 
     <div >
       <h1>MultiSigWallet </h1>
-      <MetaMaskInfo/>
+      <MetaMaskInfo currentAddress = {currentAddress} setCurrentAddress = {setCurrentAddress}/>
       <h3>Wallet Parameters</h3>
       <Header approvers = {approvers} quorum ={quorum}/>
       <h3>Create Transfer</h3>

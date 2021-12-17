@@ -1,14 +1,12 @@
 import React,{useState} from "react";
 
-const MetaMaskInfo = () => {
-
-    const[currentAccount,setCurrentAccount] = useState(undefined)
+const MetaMaskInfo = ({currentAddress, setCurrentAddress}) => {
 
     const handleAccountsChange = (accounts) => {
         console.log("Accounts Length:" + String(accounts.length))
-         if (accounts[0] !== currentAccount){
-            setCurrentAccount(accounts[0])
-            console.log(currentAccount)
+         if (accounts[0] !== currentAddress){
+            setCurrentAddress(accounts[0])
+            console.log(currentAddress)
         }
 
     }
@@ -18,7 +16,7 @@ const MetaMaskInfo = () => {
 
     window.ethereum.on('accountsChanged', handleAccountsChange)
 
-    if (typeof currentAccount === "undefined") {
+    if (typeof currentAddress === "undefined") {
         return(
         <p>Connect Metamask</p>)
 
@@ -30,13 +28,7 @@ const MetaMaskInfo = () => {
     return(
         <>
         <h3> <span role="img" aria-label="Fox">🦊</span> MetaMask Info</h3>
-        <p>Connected Account: {currentAccount}</p>
+        <p>Connected Account: {currentAddress}</p>
         </>)
-
-
-
-
-    
 }
-
 export default MetaMaskInfo
