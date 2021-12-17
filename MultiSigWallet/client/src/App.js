@@ -3,6 +3,7 @@ import {getWeb3, getWallet} from "./utils.js"
 import Header from "./Header.js"
 import CreateTransactionForm from "./CreateTransactionForm.js"
 import TransactionList from "./TransactionList.js"
+import MetaMaskInfo from "./MetaMaskInfo.js"
 
 function App() {
   //read from blockchain
@@ -41,7 +42,6 @@ function App() {
     wallet.methods
     .createTransfer(transfer.amount, transfer.to)
     .send({from: currentAccount, gas: 1000000})
-    console.log("After send")
   }
 
   const approveTransfer = transferId => {
@@ -56,7 +56,11 @@ function App() {
     || typeof approvers === "undefined"
     || typeof quorum === "undefined"
     ) 
-  {return <div> Loading...</div>}
+  {return (
+    <>
+    <MetaMaskInfo/>
+  <div> Loading...</div>
+  </>)}
   
 
 
@@ -66,7 +70,7 @@ function App() {
 
     <div >
       <h1>MultiSigWallet </h1>
-      <p>Connected Account: {currentAccount} </p>
+      <MetaMaskInfo/>
       <h3>Wallet Parameters</h3>
       <Header approvers = {approvers} quorum ={quorum}/>
       <h3>Create Transfer</h3>
