@@ -3,8 +3,8 @@ import {getWeb3, getWallet} from "./utils.js"
 import Header from "./Header.js"
 import CreateTransactionForm from "./CreateTransactionForm.js"
 import TransactionList from "./TransactionList.js"
-// import MetaMaskInfo from "./MetaMaskInfo.js"
 import MetaMaskInfo from "./MetaMaskInfo.js"
+import EsterCoding from "./EsterCoding.js"
 
 function App() {
   //read from blockchain
@@ -73,6 +73,8 @@ function App() {
   return (
 
     <div >
+      {/* <EsterCoding/> */}
+
       <h1>MultiSigWallet </h1>
       <MetaMaskInfo currentAddress = {currentAddress} setCurrentAddress = {setCurrentAddress}/>
       <h3>Wallet Parameters</h3>
